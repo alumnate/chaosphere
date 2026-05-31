@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaosphere | Confirm</title>
+    <meta name="description" content="Chaosphere confirmation page.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/confirm.css">
+    <script>
+        /*
+        (function () {
+            var storedTheme = localStorage.getItem('chaosphere-theme');
+            if (!storedTheme) {
+                storedTheme = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        })();
+        */
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('chaosphere-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body class="confirm-page">
+    <div class="page-loader" aria-live="polite" aria-busy="true">
+        <div class="page-loader__core">
+            <div class="page-loader__ring"></div>
+            <div class="page-loader__spark"></div>
+            <p>Loading Chaosphere</p>
+        </div>
+    </div>
+
+    <canvas id="antigravity-canvas" class="antigravity-canvas"></canvas>
+
+    <header class="corner-logos" aria-label="Branding">
+        <img class="corner-logo logo-left" src="../assets/B2BLogo.png" alt="B2B Logo">
+        <img class="corner-logo logo-right" src="../assets/ChoasphereLogo.png" alt="Chaosphere Logo">
+    </header>
+
+    <main class="confirm-shell">
+        <section class="confirm-content" aria-labelledby="confirm-title">
+            <h1 class="confirm-title" id="confirm-title">Confirm</h1>
+            <p class="confirm-subtitle">Enter PIN</p>
+
+            <button class="pin-display" type="button" aria-label="PIN entry" id="pin-display">
+                <span class="pin-dot" aria-hidden="true"></span>
+                <span class="pin-dot" aria-hidden="true"></span>
+                <span class="pin-dot" aria-hidden="true"></span>
+                <span class="pin-dot" aria-hidden="true"></span>
+            </button>
+            <input class="pin-input" id="pin-input" type="password" inputmode="numeric" pattern="[0-9]*"
+                autocomplete="off" aria-label="Enter 4 digit pin">
+
+            <button class="confirm-button" id="confirm-button" type="button">
+                Confirm Payment
+            </button>
+
+            <p class="confirm-status" id="confirm-status" role="status" aria-live="polite"></p>
+            <button class="return-button" id="return-button" type="button" hidden>
+                Return to Home Page
+            </button>
+        </section>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/confirm.js"></script>
+</body>
+
+</html>

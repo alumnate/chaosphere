@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaosphere | Dashboard</title>
+    <meta name="description" content="Chaosphere team dashboard.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <script>
+        /*
+        (function () {
+            var storedTheme = localStorage.getItem('chaosphere-theme');
+            if (!storedTheme) {
+                storedTheme = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        })();
+        */
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('chaosphere-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body class="dashboard-page">
+    <div class="page-loader" aria-live="polite" aria-busy="true">
+        <div class="page-loader__core">
+            <div class="page-loader__ring"></div>
+            <div class="page-loader__spark"></div>
+            <p>Loading Chaosphere</p>
+        </div>
+    </div>
+
+    <canvas id="antigravity-canvas" class="antigravity-canvas"></canvas>
+
+    <header class="corner-logos" aria-label="Branding">
+        <img class="corner-logo logo-left" src="../assets/B2BLogo.png" alt="B2B Logo">
+        <img class="corner-logo logo-right" src="../assets/ChoasphereLogo.png" alt="Chaosphere Logo">
+    </header>
+
+    <main class="dashboard-shell dashboard-shell--plain">
+        <!--
+        <section class="dashboard-card" aria-labelledby="dashboard-title">
+            <div class="dashboard-card__glow" aria-hidden="true"></div>
+            <div class="dashboard-card__content">
+                <h1 id="dashboard-title">Welcome team {Name}!</h1>
+                <p class="dashboard-subtitle">What do you want to do?</p>
+
+                <div class="dashboard-actions">
+                    <button class="action-button" id="balance-toggle" type="button" aria-expanded="false"
+                        aria-controls="balance-panel">
+                        Check balance
+                    </button>
+                    <div class="balance-panel" id="balance-panel" hidden>
+                        <p>Balance: {balance}</p>
+                    </div>
+
+                    <button class="action-button action-button--solid" type="button">
+                        Pay
+                    </button>
+                </div>
+            </div>
+        </section>
+        -->
+        <!-- <h1 id="dashboard-title">Welcome team {Name}!</h1> -->
+        <h1 id="dashboard-title">Welcome team <span id="team-name">Team</span>!</h1>
+        <p class="dashboard-subtitle">What do you want to do?</p>
+
+        <div class="dashboard-actions">
+            <button class="action-button" id="balance-toggle" type="button" aria-expanded="false"
+                aria-controls="balance-panel">
+                Check balance
+            </button>
+            <div class="balance-panel" id="balance-panel" hidden>
+                <!-- <p>Balance: {balance}</p> -->
+                <p>Balance: <span id="team-balance">0</span></p>
+            </div>
+
+            <button class="action-button action-button--solid" type="button">
+                Pay
+            </button>
+        </div>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaosphere | Team Login</title>
+    <meta name="description" content="Chaosphere team login portal.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script>
+        /*
+        (function () {
+            var storedTheme = localStorage.getItem('chaosphere-theme');
+            if (!storedTheme) {
+                storedTheme = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        })();
+        */
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('chaosphere-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="page-loader" aria-live="polite" aria-busy="true">
+        <div class="page-loader__core">
+            <div class="page-loader__ring"></div>
+            <div class="page-loader__spark"></div>
+            <p>Loading Chaosphere</p>
+        </div>
+    </div>
+    <canvas id="antigravity-canvas" class="antigravity-canvas"></canvas>
+
+    <header class="corner-logos" aria-label="Branding">
+        <img class="corner-logo logo-left" src="../assets/B2BLogo.png" alt="B2B Logo">
+        <img class="corner-logo logo-right" src="../assets/ChoasphereLogo.png" alt="Chaosphere Logo">
+    </header>
+
+    <main class="login-shell">
+        <section class="login-card" aria-labelledby="login-title">
+            <div class="login-card__glow" aria-hidden="true"></div>
+            <div class="login-card__content">
+                <p class="login-kicker">Welcome to</p>
+                <!-- <h1 id="login-title">Chaosphere Arena</h1> -->
+                <!-- <h1 id="login-title">Welcome to Chaosphere</h1> -->
+                <h1 id="login-title">Chaosphere</h1>
+                <p class="login-subtitle">Enter your team credentials to continue.</p>
+
+                <form class="login-form" id="login-form" autocomplete="on">
+                    <label class="input-field">
+                        <span>Team Name</span>
+                        <input type="text" name="teamName" placeholder="Team Polaris" required>
+                    </label>
+
+                    <label class="input-field">
+                        <span>Passcode</span>
+                        <input type="password" name="passcode" inputmode="numeric" pattern="[0-9]*" placeholder="000000"
+                            required>
+                    </label>
+
+                    <button type="submit" class="login-button">Enter Chaosphere</button>
+                </form>
+
+                <!-- <p class="login-hint">Need access? Contact your coordinator.</p> -->
+                <p class="login-hint">Need access? Contact your mentor.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaosphere | Pay</title>
+    <meta name="description" content="Chaosphere payment page.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/pay.css">
+    <script>
+        /*
+        (function () {
+            var storedTheme = localStorage.getItem('chaosphere-theme');
+            if (!storedTheme) {
+                storedTheme = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        })();
+        */
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('chaosphere-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body class="pay-page">
+    <div class="page-loader" aria-live="polite" aria-busy="true">
+        <div class="page-loader__core">
+            <div class="page-loader__ring"></div>
+            <div class="page-loader__spark"></div>
+            <p>Loading Chaosphere</p>
+        </div>
+    </div>
+
+    <canvas id="antigravity-canvas" class="antigravity-canvas"></canvas>
+
+    <header class="corner-logos" aria-label="Branding">
+        <img class="corner-logo logo-left" src="../assets/B2BLogo.png" alt="B2B Logo">
+        <img class="corner-logo logo-right" src="../assets/ChoasphereLogo.png" alt="Chaosphere Logo">
+    </header>
+
+    <main class="pay-shell">
+        <section class="pay-content" aria-labelledby="pay-title">
+            <p class="pay-kicker" id="pay-title">Paying to</p>
+            <h1 class="pay-recipient">ALUMNATION</h1>
+
+            <div class="pay-amount" role="group" aria-label="Payment amount">
+                <span class="pay-symbol" aria-hidden="true">₳</span>
+                <input class="pay-input" id="pay-input" type="text" inputmode="numeric" pattern="[0-9]*"
+                    autocomplete="off" placeholder="" aria-label="Enter amount">
+            </div>
+
+            <button class="pay-button" id="pay-now" type="button" hidden>
+                Pay Now
+            </button>
+
+            <div class="pay-keypad-hint" aria-hidden="true">Use keypad to enter amount</div>
+        </section>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/pay.js"></script>
+</body>
+
+</html>
