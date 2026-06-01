@@ -77,8 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`${window.CHAOSPHERE_API}/login`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
+                    'Content-Type': 'text/plain'
                 },
                 body: JSON.stringify({ teamName, passcode })
             });

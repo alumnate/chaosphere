@@ -18,10 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch(`${window.CHAOSPHERE_API}/balance?teamName=${encodeURIComponent(storedTeam)}`, {
+            const response = await fetch(`${window.CHAOSPHERE_API}/balance`, {
+                method: 'POST',
                 headers: {
-                    'ngrok-skip-browser-warning': 'true'
-                }
+                    'Content-Type': 'text/plain'
+                },
+                body: JSON.stringify({ teamName: storedTeam })
             });
             if (!response.ok) {
                 return;
