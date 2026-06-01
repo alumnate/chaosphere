@@ -18,7 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         try {
-            const response = await fetch(`${window.CHAOSPHERE_API}/balance?teamName=${encodeURIComponent(storedTeam)}`);
+            const response = await fetch(`${window.CHAOSPHERE_API}/balance?teamName=${encodeURIComponent(storedTeam)}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             if (!response.ok) {
                 return;
             }
