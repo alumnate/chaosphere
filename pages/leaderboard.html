@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaosphere | Leaderboard</title>
+    <meta name="description" content="Live Chaosphere team leaderboard.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/leaderboard.css">
+    <script>
+        (function () {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('chaosphere-theme', 'dark');
+        })();
+    </script>
+</head>
+
+<body class="leaderboard-page">
+    <div class="page-loader" aria-live="polite" aria-busy="true">
+        <div class="page-loader__core">
+            <div class="page-loader__ring"></div>
+            <div class="page-loader__spark"></div>
+            <p>Loading Chaosphere</p>
+        </div>
+    </div>
+
+    <canvas id="antigravity-canvas" class="antigravity-canvas"></canvas>
+
+    <header class="corner-logos" aria-label="Branding">
+        <img class="corner-logo logo-left" src="../assets/B2BLogo.png" alt="B2B Logo">
+        <img class="corner-logo logo-right" src="../assets/ChoasphereLogo.png" alt="Chaosphere Logo">
+    </header>
+
+    <main class="leaderboard-shell" aria-labelledby="leaderboard-title">
+        <section class="leaderboard-card">
+            <div class="leaderboard-card__glow" aria-hidden="true"></div>
+            <div class="leaderboard-card__content">
+                <div class="leaderboard-heading">
+                    <div>
+                        <p class="leaderboard-kicker">Live standings</p>
+                        <h1 id="leaderboard-title">Chaosphere Leaderboard</h1>
+                        <p class="leaderboard-subtitle">Rank | Team Name | Balance</p>
+                    </div>
+                    <div class="leaderboard-meta">
+                        <span class="leaderboard-status" id="leaderboard-status">Fetching latest data...</span>
+                        <span class="leaderboard-updated" id="leaderboard-updated">--</span>
+                    </div>
+                </div>
+
+                <div class="leaderboard-grid" role="table" aria-label="Leaderboard table">
+                    <div class="leaderboard-row leaderboard-row--header" role="row">
+                        <div class="leaderboard-cell" role="columnheader">Rank</div>
+                        <div class="leaderboard-cell" role="columnheader">Team Name</div>
+                        <div class="leaderboard-cell leaderboard-cell--balance" role="columnheader">Balance</div>
+                    </div>
+                    <div id="leaderboard-list" class="leaderboard-list" role="rowgroup"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/leaderbaord.js"></script>
+</body>
+
+</html>
