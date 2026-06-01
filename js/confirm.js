@@ -37,6 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const teamName = localStorage.getItem('chaosphere-team');
         const amount = localStorage.getItem('chaosphere-amount');
+        // const teamName = window.CHAOSPHERE_STATE ? window.CHAOSPHERE_STATE.teamName : '';
+        // const amount = window.CHAOSPHERE_STATE ? window.CHAOSPHERE_STATE.amount : '';
 
         if (!teamName || !amount) {
             setStatus('Pin isnt correct. Try again.', false);

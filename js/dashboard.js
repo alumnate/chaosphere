@@ -9,9 +9,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const storedTeam = localStorage.getItem('chaosphere-team') || 'Team';
+    // const storedTeam = (window.CHAOSPHERE_STATE && window.CHAOSPHERE_STATE.teamName) || 'Team';
     if (teamNameEl) {
         teamNameEl.textContent = storedTeam;
     }
+
+    // async function refreshBalance() {
+    //     if (!storedTeam) {
+    //         return;
+    //     }
+    //     try {
+    //         const response = await fetch(`${window.CHAOSPHERE_API}/balance`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'text/plain'
+    //             },
+    //             body: JSON.stringify({ teamName: storedTeam })
+    //         });
+    //         if (!response.ok) {
+    //             return;
+    //         }
+    //         const data = await response.json();
+    //         localStorage.setItem('chaosphere-balance', String(data.balance));
+    //         if (teamBalanceEl) {
+    //             teamBalanceEl.textContent = data.balance;
+    //         }
+    //     } catch (error) {
+    //         // Keep silent for now to match UI style.
+    //     }
+    // }
 
     async function refreshBalance() {
         if (!storedTeam) {

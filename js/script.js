@@ -9,11 +9,77 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
     // window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
-    (function resolveApiBase() {
+    // Offline-only mode: no frontend <-> backend connectivity.
+    // (function resolveApiBase() {
+    //     const storedApi = localStorage.getItem('chaosphere-api');
+    //     if (storedApi) {
+    //         // window.CHAOSPHERE_API = storedApi;
+    //         // return;
+    //         const normalizedStored = storedApi.replace(/\/$/, '');
+    //         window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
+    //             ? normalizedStored
+    //             : `${normalizedStored}/api`;
+    //         return;
+    //     }
+    //
+    //     if (window.location.protocol === 'file:') {
+    //         // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    //         window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
+    //         return;
+    //     }
+    //
+    //     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    //         window.CHAOSPHERE_API = `${window.location.origin}/api`;
+    //         return;
+    //     }
+    //
+    //     // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    //     window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
+    // })();
+    // window.CHAOSPHERE_API = '';
+    // // In-memory only state (no localStorage persistence).
+    // window.CHAOSPHERE_STATE = {
+    //     teamName: '',
+    //     balance: 1000,
+    //     amount: '',
+    //     leaderboard: [
+    //         { team_name: 'Team Polaris', balance: 1200 },
+    //         { team_name: 'Team Nova', balance: 980 },
+    //         { team_name: 'Team Orion', balance: 860 },
+    //         { team_name: 'Team Atlas', balance: 640 }
+    //     ]
+    // };
+
+    // Backend-connected mode: resolve API base from storage or hostname.
+    // (function resolveApiBase() {
+    //     const storedApi = localStorage.getItem('chaosphere-api');
+    //     if (storedApi) {
+    //         const normalizedStored = storedApi.replace(/\/$/, '');
+    //         window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
+    //             ? normalizedStored
+    //             : `${normalizedStored}/api`;
+    //         return;
+    //     }
+    //
+    //     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    //         window.CHAOSPHERE_API = `${window.location.origin}/api`;
+    //         return;
+    //     }
+    //
+    //     window.CHAOSPHERE_API = `${window.location.origin}/api`;
+    // })();
+
+    // Local-first mode: always use localhost when running locally.
+    (function resolveLocalApiBase() {
+        if (window.location.protocol === 'file:'
+            || window.location.hostname === 'localhost'
+            || window.location.hostname === '127.0.0.1') {
+            window.CHAOSPHERE_API = 'http://localhost:5000/api';
+            return;
+        }
+
         const storedApi = localStorage.getItem('chaosphere-api');
         if (storedApi) {
-            // window.CHAOSPHERE_API = storedApi;
-            // return;
             const normalizedStored = storedApi.replace(/\/$/, '');
             window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
                 ? normalizedStored
@@ -21,19 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (window.location.protocol === 'file:') {
-            // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-            window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
-            return;
-        }
-
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            window.CHAOSPHERE_API = `${window.location.origin}/api`;
-            return;
-        }
-
-        // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-        window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
+        window.CHAOSPHERE_API = `${window.location.origin}/api`;
     })();
     (function initPageLoader() {
         window.addEventListener('load', () => {

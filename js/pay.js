@@ -49,6 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         localStorage.setItem('chaosphere-amount', amount);
+        // if (window.CHAOSPHERE_STATE) {
+        //     window.CHAOSPHERE_STATE.amount = amount;
+        // }
         window.location.href = 'confirm.html';
     });
 

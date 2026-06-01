@@ -82,9 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ teamName, passcode })
             });
 
-            // if (!response.ok) {
-            //     return;
-            // }
             if (!response.ok) {
                 const detail = await response.text().catch(() => '');
                 setMessage(detail || 'Login failed. Check your team name and passcode.');
@@ -96,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('chaosphere-balance', String(data.balance));
             window.location.href = 'dashboard.html';
         } catch (error) {
-            // Keep silent for now to match UI style.
             setMessage('Network error contacting the API. Check the API URL or CORS settings.');
         } finally {
             if (submitButton) {
