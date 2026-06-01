@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Example: window.CHAOSPHERE_API = 'https://1234-abcd.ngrok-free.app/api';
     // -------------------------------------------------------------
     // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    // window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
     (function resolveApiBase() {
         const storedApi = localStorage.getItem('chaosphere-api');
         if (storedApi) {
@@ -21,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (window.location.protocol === 'file:') {
-            window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+            // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+            window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
             return;
         }
 
@@ -30,7 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+        // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+        window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
     })();
     (function initPageLoader() {
         window.addEventListener('load', () => {
