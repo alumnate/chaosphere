@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (window.location.protocol === 'file:') {
-            window.CHAOSPHERE_API = 'http://localhost:5000/api';
+            window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
             return;
         }
 
