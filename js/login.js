@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('login-form');
     const teamInput = document.querySelector('input[name="teamName"]');
     const passcodeInput = document.querySelector('input[name="passcode"]');
+    const submitButton = form ? form.querySelector('button[type="submit"]') : null;
     const existingMessage = document.querySelector('.login-message');
     const messageEl = existingMessage || (() => {
         const el = document.createElement('p');
@@ -16,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form || !teamInput || !passcodeInput) {
         return;
     }
+
+    // form.setAttribute('novalidate', 'novalidate');
+    // passcodeInput.removeAttribute('pattern');
+    form.setAttribute('novalidate', 'novalidate');
+    passcodeInput.removeAttribute('pattern');
 
     function setMessage(text, tone) {
         if (!messageEl) return;
@@ -43,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         setMessage('Checking credentials...', 'success');
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Checking...';
+        }
 
         try {
             const response = await fetch(`${window.CHAOSPHERE_API}/login`, {
@@ -69,6 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             // Keep silent for now to match UI style.
             setMessage('Network error contacting the API. Check the API URL or CORS settings.');
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Enter Chaosphere';
+            }
         }
     });
 });
