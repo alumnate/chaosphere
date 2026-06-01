@@ -11,7 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     (function resolveApiBase() {
         const storedApi = localStorage.getItem('chaosphere-api');
         if (storedApi) {
-            window.CHAOSPHERE_API = storedApi;
+            // window.CHAOSPHERE_API = storedApi;
+            // return;
+            const normalizedStored = storedApi.replace(/\/$/, '');
+            window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
+                ? normalizedStored
+                : `${normalizedStored}/api`;
             return;
         }
 
