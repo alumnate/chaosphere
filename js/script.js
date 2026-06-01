@@ -2,82 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
     // 🔗 API CONFIGURATION
     // -------------------------------------------------------------
-    // To host the frontend on GitHub Pages and backend via Ngrok:
-    // 1. Run your Ngrok tunnel (e.g., `ngrok http 5000`)
-    // 2. Paste the HTTPS forwarding URL below.
-    // Example: window.CHAOSPHERE_API = 'https://1234-abcd.ngrok-free.app/api';
-    // -------------------------------------------------------------
-    // Placeholder for GitHub Pages + Ngrok:
     window.CHAOSPHERE_API_OVERRIDE = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-    // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-    // window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
-    // Offline-only mode: no frontend <-> backend connectivity.
-    // (function resolveApiBase() {
-    //     const storedApi = localStorage.getItem('chaosphere-api');
-    //     if (storedApi) {
-    //         // window.CHAOSPHERE_API = storedApi;
-    //         // return;
-    //         const normalizedStored = storedApi.replace(/\/$/, '');
-    //         window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
-    //             ? normalizedStored
-    //             : `${normalizedStored}/api`;
-    //         return;
-    //     }
-    //
-    //     if (window.location.protocol === 'file:') {
-    //         // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-    //         window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
-    //         return;
-    //     }
-    //
-    //     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    //         window.CHAOSPHERE_API = `${window.location.origin}/api`;
-    //         return;
-    //     }
-    //
-    //     // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
-    //     window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
-    // })();
-    // window.CHAOSPHERE_API = '';
-    // // In-memory only state (no localStorage persistence).
-    // window.CHAOSPHERE_STATE = {
-    //     teamName: '',
-    //     balance: 1000,
-    //     amount: '',
-    //     leaderboard: [
-    //         { team_name: 'Team Polaris', balance: 1200 },
-    //         { team_name: 'Team Nova', balance: 980 },
-    //         { team_name: 'Team Orion', balance: 860 },
-    //         { team_name: 'Team Atlas', balance: 640 }
-    //     ]
-    // };
 
-    // Backend-connected mode: resolve API base from storage or hostname.
-    // (function resolveApiBase() {
-    //     const storedApi = localStorage.getItem('chaosphere-api');
-    //     if (storedApi) {
-    //         const normalizedStored = storedApi.replace(/\/$/, '');
-    //         window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
-    //             ? normalizedStored
-    //             : `${normalizedStored}/api`;
-    //         return;
-    //     }
-    //
-    //     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    //         window.CHAOSPHERE_API = `${window.location.origin}/api`;
-    //         return;
-    //     }
-    //
-    //     window.CHAOSPHERE_API = `${window.location.origin}/api`;
-    // })();
+    // Force clear any corrupted or old local storage overrides
+    localStorage.removeItem('chaosphere-api');
 
-    // Local-first mode: always use localhost when running locally.
     (function resolveLocalApiBase() {
         if (window.CHAOSPHERE_API_OVERRIDE) {
-            const normalizedOverride = window.CHAOSPHERE_API_OVERRIDE.replace(/\/$/, '');
-            window.CHAOSPHERE_API = normalizedOverride.endsWith('/api')
-                ? normalizedOverride
-                : `${normalizedOverride}/api`;
+            let api = window.CHAOSPHERE_API_OVERRIDE;
+            
+            // Sanitize malformed URLs (e.g. double https:// or repeated domains)
+            api = api.replace(/^(https?:\/\/)+/, 'https://');
+            api = api.replace(/\.ngrok-free\.dev\.ngrok-free\.dev/g, '.ngrok-free.dev');
+            api = api.replace(/\/$/, '');
+            
+            window.CHAOSPHERE_API = api.endsWith('/api') ? api : `${api}/api`;
             return;
         }
 
@@ -85,15 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             || window.location.hostname === 'localhost'
             || window.location.hostname === '127.0.0.1') {
             window.CHAOSPHERE_API = 'http://localhost:5000/api';
-            return;
-        }
-
-        const storedApi = localStorage.getItem('chaosphere-api');
-        if (storedApi) {
-            const normalizedStored = storedApi.replace(/\/$/, '');
-            window.CHAOSPHERE_API = normalizedStored.endsWith('/api')
-                ? normalizedStored
-                : `${normalizedStored}/api`;
             return;
         }
 
