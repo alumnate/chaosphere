@@ -103,27 +103,74 @@ document.addEventListener('DOMContentLoaded', () => {
         return null;
     }
 
+    // async function fetchLeaderboard() {
+    //     try {
+    //         const response = await fetch(`${window.CHAOSPHERE_API}/leaderboard`);
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         const data = await response.json();
+    //         if (!data || !Array.isArray(data.items)) {
+    //             throw new Error('Invalid leaderboard payload');
+    //         }
+    //         renderItems(data.items, 'live');
+    //         setUpdated(data.updated_at || new Date().toISOString());
+    //         localStorage.setItem(cacheKey, JSON.stringify({
+    //             items: data.items,
+    //             updated_at: data.updated_at || new Date().toISOString()
+    //         }));
+    //     } catch (error) {
+    //         const cached = loadFromCache();
+    //         if (!cached) {
+    //             setStatus('Unable to load leaderboard right now.', 'offline');
+    //         }
+    //     }
+    // }
+
+    function buildEndpoint(baseUrl) {
+        const cleanedBase = (baseUrl || '').trim().replace(/\/$/, '');
+        if (!cleanedBase) {
+            return '/api/leaderboard';
+        }
+        return `${cleanedBase}/leaderboard`;
+    }
+
+    async function fetchFromEndpoint(endpoint) {
+        const response = await fetch(endpoint);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        if (!data || !Array.isArray(data.items)) {
+            throw new Error('Invalid leaderboard payload');
+        }
+        return data;
+    }
+
     async function fetchLeaderboard() {
-        try {
-            const response = await fetch(`${window.CHAOSPHERE_API}/leaderboard`);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        const endpoints = [
+            buildEndpoint(window.CHAOSPHERE_API),
+            '/api/leaderboard'
+        ];
+
+        for (const endpoint of endpoints) {
+            try {
+                const data = await fetchFromEndpoint(endpoint);
+                renderItems(data.items, 'live');
+                setUpdated(data.updated_at || new Date().toISOString());
+                localStorage.setItem(cacheKey, JSON.stringify({
+                    items: data.items,
+                    updated_at: data.updated_at || new Date().toISOString()
+                }));
+                return;
+            } catch (error) {
+                // Try the next endpoint.
             }
-            const data = await response.json();
-            if (!data || !Array.isArray(data.items)) {
-                throw new Error('Invalid leaderboard payload');
-            }
-            renderItems(data.items, 'live');
-            setUpdated(data.updated_at || new Date().toISOString());
-            localStorage.setItem(cacheKey, JSON.stringify({
-                items: data.items,
-                updated_at: data.updated_at || new Date().toISOString()
-            }));
-        } catch (error) {
-            const cached = loadFromCache();
-            if (!cached) {
-                setStatus('Unable to load leaderboard right now.', 'offline');
-            }
+        }
+
+        const cached = loadFromCache();
+        if (!cached) {
+            setStatus('Unable to load leaderboard right now.', 'offline');
         }
     }
 
