@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Paste the HTTPS forwarding URL below.
     // Example: window.CHAOSPHERE_API = 'https://1234-abcd.ngrok-free.app/api';
     // -------------------------------------------------------------
+    // Placeholder for GitHub Pages + Ngrok:
+    window.CHAOSPHERE_API_OVERRIDE = 'https://tumular-heedless-gail.ngrok-free.dev/api';
     // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
     // window.CHAOSPHERE_API = 'https://needle-preserve-bloom-testimony.trycloudflare.com/api';
     // Offline-only mode: no frontend <-> backend connectivity.
@@ -71,6 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Local-first mode: always use localhost when running locally.
     (function resolveLocalApiBase() {
+        if (window.CHAOSPHERE_API_OVERRIDE) {
+            const normalizedOverride = window.CHAOSPHERE_API_OVERRIDE.replace(/\/$/, '');
+            window.CHAOSPHERE_API = normalizedOverride.endsWith('/api')
+                ? normalizedOverride
+                : `${normalizedOverride}/api`;
+            return;
+        }
+
         if (window.location.protocol === 'file:'
             || window.location.hostname === 'localhost'
             || window.location.hostname === '127.0.0.1') {
