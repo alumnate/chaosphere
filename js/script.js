@@ -7,7 +7,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Paste the HTTPS forwarding URL below.
     // Example: window.CHAOSPHERE_API = 'https://1234-abcd.ngrok-free.app/api';
     // -------------------------------------------------------------
-    window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    // window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    (function resolveApiBase() {
+        const storedApi = localStorage.getItem('chaosphere-api');
+        if (storedApi) {
+            window.CHAOSPHERE_API = storedApi;
+            return;
+        }
+
+        if (window.location.protocol === 'file:') {
+            window.CHAOSPHERE_API = 'http://localhost:5000/api';
+            return;
+        }
+
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            window.CHAOSPHERE_API = `${window.location.origin}/api`;
+            return;
+        }
+
+        window.CHAOSPHERE_API = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    })();
     (function initPageLoader() {
         window.addEventListener('load', () => {
             const loader = document.querySelector('.page-loader');
