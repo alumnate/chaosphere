@@ -29,6 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
         messageEl.style.color = tone === 'success' ? '#84f1b5' : '#ff8c8c';
     }
 
+    async function checkApiHealth() {
+        if (!window.CHAOSPHERE_API) {
+            setMessage('API endpoint is missing.');
+            return;
+        }
+
+        try {
+            const healthUrl = `${window.CHAOSPHERE_API}/health`;
+            const response = await fetch(healthUrl, { method: 'GET' });
+            if (!response.ok) {
+                setMessage(`API health check failed (${response.status}). URL: ${healthUrl}`);
+                return;
+            }
+            setMessage('API is reachable. You can log in.', 'success');
+        } catch (error) {
+            setMessage(`Cannot reach API. URL: ${window.CHAOSPHERE_API}`);
+        }
+    }
+
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
@@ -86,4 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    checkApiHealth();
 });
