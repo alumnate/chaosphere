@@ -4,8 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaosphere | Leaderboard</title>
-    <meta name="description" content="Live Chaosphere team leaderboard.">
+    <title>Chaosphere | Live Leaderboard</title>
+    <meta name="description" content="Live Chaosphere AluMoney economy leaderboard — real-time team rankings and balances.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/leaderboard.css">
     <script>
@@ -35,24 +38,55 @@
     <main class="leaderboard-shell" aria-labelledby="leaderboard-title">
         <section class="leaderboard-card">
             <div class="leaderboard-card__glow" aria-hidden="true"></div>
+            <div class="leaderboard-card__shimmer" aria-hidden="true"></div>
             <div class="leaderboard-card__content">
+
+                <!-- Header -->
                 <div class="leaderboard-heading">
                     <div>
-                        <p class="leaderboard-kicker">Live standings</p>
+                        <p class="leaderboard-kicker">
+                            <span class="kicker-icon" aria-hidden="true">◆</span>
+                            Live Economy Dashboard
+                        </p>
                         <h1 id="leaderboard-title">Chaosphere Leaderboard</h1>
-                        <p class="leaderboard-subtitle">Rank | Team Name | Balance</p>
+                        <p class="leaderboard-subtitle">Real-time AluMoney standings</p>
                     </div>
                     <div class="leaderboard-meta">
-                        <span class="leaderboard-status" id="leaderboard-status">Fetching latest data...</span>
+                        <span class="leaderboard-status" id="leaderboard-status">
+                            <span class="status-dot" aria-hidden="true"></span>
+                            <span class="status-text">Fetching latest data...</span>
+                        </span>
                         <span class="leaderboard-updated" id="leaderboard-updated">--</span>
                     </div>
                 </div>
 
+                <!-- Economy Stats Bar -->
+                <div class="economy-bar" id="economy-bar" aria-label="Economy statistics">
+                    <div class="economy-stat">
+                        <span class="economy-stat__label">Total Economy</span>
+                        <span class="economy-stat__value" id="stat-total-economy">--</span>
+                    </div>
+                    <div class="economy-stat">
+                        <span class="economy-stat__label">Teams</span>
+                        <span class="economy-stat__value" id="stat-team-count">--</span>
+                    </div>
+                    <div class="economy-stat">
+                        <span class="economy-stat__label">Avg Balance</span>
+                        <span class="economy-stat__value" id="stat-avg-balance">--</span>
+                    </div>
+                    <div class="economy-stat">
+                        <span class="economy-stat__label">Top Balance</span>
+                        <span class="economy-stat__value" id="stat-top-balance">--</span>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Table -->
                 <div class="leaderboard-grid" role="table" aria-label="Leaderboard table">
                     <div class="leaderboard-row leaderboard-row--header" role="row">
-                        <div class="leaderboard-cell" role="columnheader">Rank</div>
-                        <div class="leaderboard-cell" role="columnheader">Team Name</div>
-                        <div class="leaderboard-cell leaderboard-cell--balance" role="columnheader">Balance</div>
+                        <div class="leaderboard-cell cell-rank" role="columnheader">Rank</div>
+                        <div class="leaderboard-cell cell-team" role="columnheader">Team</div>
+                        <div class="leaderboard-cell cell-movement" role="columnheader">Move</div>
+                        <div class="leaderboard-cell cell-balance" role="columnheader">Balance (₳)</div>
                     </div>
                     <div id="leaderboard-list" class="leaderboard-list" role="rowgroup"></div>
                 </div>
