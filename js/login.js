@@ -103,5 +103,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    checkApiHealth();
+    // checkApiHealth();
 });
