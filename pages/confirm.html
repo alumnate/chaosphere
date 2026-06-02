@@ -43,7 +43,7 @@
     </header>
 
     <main class="confirm-shell">
-        <section class="confirm-content" aria-labelledby="confirm-title">
+        <section class="confirm-content" aria-labelledby="confirm-title" id="confirm-content">
             <h1 class="confirm-title" id="confirm-title">Confirm</h1>
             <p class="confirm-subtitle">Enter PIN</p>
 
@@ -64,6 +64,29 @@
             <button class="return-button" id="return-button" type="button" hidden>
                 Return to Home Page
             </button>
+        </section>
+
+        <!-- Processing overlay — shown while the payment request is in flight -->
+        <section class="processing-overlay" id="processing-overlay" aria-live="polite" hidden>
+            <div class="processing-spinner-wrap">
+                <div class="processing-ring"></div>
+                <div class="processing-spark"></div>
+            </div>
+            <h2 class="processing-heading">Processing Payment</h2>
+            <p class="processing-steps" id="processing-steps">Verifying transaction…</p>
+            <p class="processing-notice">Please do not refresh this page.</p>
+        </section>
+
+        <!-- Success overlay — shown after a successful payment -->
+        <section class="success-overlay" id="success-overlay" aria-live="polite" hidden>
+            <div class="success-icon" aria-hidden="true">✓</div>
+            <h2 class="success-heading">Payment Confirmed</h2>
+            <p class="success-detail" id="success-txn-id">Transaction ID: —</p>
+            <p class="success-detail" id="success-balance">Updated Balance: —</p>
+            <div class="success-actions">
+                <button class="confirm-button" id="success-dashboard-btn" type="button">Return to Dashboard</button>
+                <button class="return-button" id="success-balance-btn" type="button">View Balance</button>
+            </div>
         </section>
     </main>
 

@@ -116,3 +116,172 @@
     transform: translateY(-2px);
     box-shadow: 0 18px 36px rgba(200, 60, 80, 0.25);
 }
+
+/* ====================================================
+   BUTTON — disabled / processing states
+   ==================================================== */
+
+.confirm-button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 10px 20px rgba(180, 40, 50, 0.12);
+}
+
+.confirm-button:disabled:hover {
+    transform: none;
+    box-shadow: 0 10px 20px rgba(180, 40, 50, 0.12);
+}
+
+.confirm-button.is-processing {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.confirm-button.is-processing::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(11, 11, 18, 0.3);
+    border-top-color: #0b0b12;
+    animation: spinLoader 0.8s linear infinite;
+}
+
+/* ====================================================
+   PROCESSING OVERLAY
+   ==================================================== */
+
+.processing-overlay {
+    display: grid;
+    gap: 18px;
+    justify-items: center;
+    text-align: center;
+    transform: translateY(-90px);
+    animation: floatIn 0.6s ease-out;
+}
+
+.processing-spinner-wrap {
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+    margin-bottom: 8px;
+}
+
+.processing-ring {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(200, 80, 90, 0.25);
+    border-top-color: rgba(255, 120, 130, 0.9);
+    border-right-color: rgba(200, 70, 80, 0.6);
+    box-shadow: 0 0 24px rgba(200, 70, 90, 0.35);
+    animation: spinLoader 1.3s linear infinite;
+}
+
+.processing-spark {
+    width: 120px;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, rgba(255, 120, 130, 0.75), transparent);
+    animation: pulseLoader 1.4s ease-in-out infinite;
+}
+
+.processing-heading {
+    font-family: var(--font-h1);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+}
+
+.processing-steps {
+    font-family: var(--font-h3);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    animation: fadeStepPulse 2s ease-in-out infinite;
+}
+
+.processing-notice {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-style: italic;
+    letter-spacing: 0.04em;
+}
+
+/* ====================================================
+   SUCCESS OVERLAY
+   ==================================================== */
+
+.success-overlay {
+    display: grid;
+    gap: 14px;
+    justify-items: center;
+    text-align: center;
+    transform: translateY(-90px);
+    animation: floatIn 0.7s ease-out;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #0b0b12;
+    background: linear-gradient(135deg, rgba(80, 220, 140, 0.95), rgba(40, 180, 110, 0.9));
+    box-shadow:
+        0 0 40px rgba(60, 200, 120, 0.35),
+        0 0 80px rgba(60, 200, 120, 0.15);
+    margin-bottom: 4px;
+}
+
+.success-heading {
+    font-family: var(--font-h1);
+    font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+}
+
+.success-detail {
+    font-family: var(--font-h3);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.success-actions .confirm-button {
+    font-size: 0.85rem;
+    padding: 12px 22px;
+}
+
+.success-actions .return-button {
+    font-size: 0.8rem;
+    padding: 11px 20px;
+}
+
+/* ====================================================
+   ANIMATIONS
+   ==================================================== */
+
+@keyframes fadeStepPulse {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 1; }
+}
