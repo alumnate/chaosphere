@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ========== SCREEN TRANSITIONS ========== */
 
     function showProcessingState() {
-        if (confirmContent) confirmContent.hidden = true;
-        if (processingOverlay) processingOverlay.hidden = false;
-        if (successOverlay) successOverlay.hidden = true;
+        if (confirmContent) { confirmContent.hidden = true; confirmContent.style.display = 'none'; }
+        if (processingOverlay) { processingOverlay.hidden = false; processingOverlay.style.display = ''; }
+        if (successOverlay) { successOverlay.hidden = true; successOverlay.style.display = 'none'; }
 
         /* Cycle through step messages for a lively feel */
         const steps = [
@@ -71,16 +71,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showConfirmContent() {
         hideProcessingState();
-        if (confirmContent) confirmContent.hidden = false;
-        if (processingOverlay) processingOverlay.hidden = true;
-        if (successOverlay) successOverlay.hidden = true;
+        if (confirmContent) { confirmContent.hidden = false; confirmContent.style.display = ''; }
+        if (processingOverlay) { processingOverlay.hidden = true; processingOverlay.style.display = 'none'; }
+        if (successOverlay) { successOverlay.hidden = true; successOverlay.style.display = 'none'; }
     }
 
     function showSuccessState(data) {
         hideProcessingState();
-        if (confirmContent) confirmContent.hidden = true;
-        if (processingOverlay) processingOverlay.hidden = true;
-        if (successOverlay) successOverlay.hidden = false;
+        if (confirmContent) { confirmContent.hidden = true; confirmContent.style.display = 'none'; }
+        if (processingOverlay) { processingOverlay.hidden = true; processingOverlay.style.display = 'none'; }
+        if (successOverlay) { successOverlay.hidden = false; successOverlay.style.display = ''; }
 
         if (successTxnId) {
             successTxnId.textContent = 'Transaction ID: ' + (data.transactionId || '—');
@@ -223,4 +223,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     syncDots();
     setStatus('', false);
+    showConfirmContent();
 });
