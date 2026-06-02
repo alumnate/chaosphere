@@ -1,3 +1,7 @@
+[hidden] {
+    display: none !important;
+}
+
 .confirm-shell {
     min-height: 100vh;
     display: flex;
