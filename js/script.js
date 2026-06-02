@@ -138,7 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.checkGatewayStatus = async function() {
         if (!window.CHAOSPHERE_API) return false;
         try {
-            const response = await fetch(`${window.CHAOSPHERE_API}/health`, { method: 'GET' });
+            const response = await fetch(`${window.CHAOSPHERE_API}/health`, { 
+                method: 'GET',
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             window.isPaymentGatewayOnline = response.ok;
         } catch (e) {
             window.isPaymentGatewayOnline = false;

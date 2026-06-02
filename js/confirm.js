@@ -52,7 +52,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`${window.CHAOSPHERE_API}/confirm`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain'
+                    'Content-Type': 'text/plain',
+                    'ngrok-skip-browser-warning': 'true'
                 },
                 body: JSON.stringify({
                     teamName,
