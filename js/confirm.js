@@ -30,6 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function handleConfirm() {
+        const isOnline = await window.checkGatewayStatus();
+        if (!isOnline) return;
+
         if (input.value.length < 4) {
             setStatus('Pin isnt correct. Try again.', false);
             return;

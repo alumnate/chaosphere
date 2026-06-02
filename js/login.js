@@ -51,12 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        const isOnline = await window.checkGatewayStatus();
+        if (!isOnline) return;
+
         const teamName = teamInput.value.trim();
         const passcode = passcodeInput.value.trim();
 
-        // if (!teamName || !passcode) {
-        //     return;
-        // }
         if (!teamName || !passcode) {
             setMessage('Please enter both team name and passcode.');
             return;

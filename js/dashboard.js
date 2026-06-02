@@ -43,6 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!storedTeam) {
             return;
         }
+        const isOnline = await window.checkGatewayStatus();
+        if (!isOnline) return;
+        
         try {
             const response = await fetch(`${window.CHAOSPHERE_API}/balance`, {
                 method: 'POST',

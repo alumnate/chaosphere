@@ -43,7 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    payButton.addEventListener('click', () => {
+    payButton.addEventListener('click', async () => {
+        const isOnline = await window.checkGatewayStatus();
+        if (!isOnline) return;
+
         const amount = input.value.trim();
         if (!amount) {
             return;

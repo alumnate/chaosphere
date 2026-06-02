@@ -1,34 +1,179 @@
 document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------------------------
-    // 🔗 API CONFIGURATION
+    // 🔗 API CONFIGURATION & GATEWAY STATUS
     // -------------------------------------------------------------
-    window.CHAOSPHERE_API_OVERRIDE = 'https://tumular-heedless-gail.ngrok-free.dev/api';
+    window.isPaymentGatewayOnline = true;
 
-    // Force clear any corrupted or old local storage overrides
-    localStorage.removeItem('chaosphere-api');
-
-    (function resolveLocalApiBase() {
-        if (window.CHAOSPHERE_API_OVERRIDE) {
-            let api = window.CHAOSPHERE_API_OVERRIDE;
-            
-            // Sanitize malformed URLs (e.g. double https:// or repeated domains)
-            api = api.replace(/^(https?:\/\/)+/, 'https://');
-            api = api.replace(/\.ngrok-free\.dev\.ngrok-free\.dev/g, '.ngrok-free.dev');
+    (function resolveApiBase() {
+        if (window.CHAOSPHERE_CONFIG && window.CHAOSPHERE_CONFIG.API_BASE_URL) {
+            let api = window.CHAOSPHERE_CONFIG.API_BASE_URL;
             api = api.replace(/\/$/, '');
-            
             window.CHAOSPHERE_API = api.endsWith('/api') ? api : `${api}/api`;
-            return;
-        }
-
-        if (window.location.protocol === 'file:'
-            || window.location.hostname === 'localhost'
-            || window.location.hostname === '127.0.0.1') {
+        } else {
             window.CHAOSPHERE_API = 'http://localhost:5000/api';
-            return;
         }
-
-        window.CHAOSPHERE_API = `${window.location.origin}/api`;
     })();
+
+    (function initGatewayStatusUI() {
+        const overlay = document.createElement('div');
+        overlay.id = 'gateway-offline-overlay';
+        overlay.className = 'gateway-offline-overlay';
+        overlay.innerHTML = `
+            <div class="gateway-offline-card">
+                <div class="gateway-offline-icon">
+                    <span class="status-dot offline-dot" aria-hidden="true"></span>
+                </div>
+                <h2>Payment Gateway Offline</h2>
+                <p>Transactions are currently unavailable.<br>Please try again later.</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .gateway-offline-overlay {
+                position: fixed;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: rgba(10, 10, 15, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.4s ease;
+            }
+            .gateway-offline-overlay.is-visible {
+                opacity: 1;
+                pointer-events: all;
+            }
+            .gateway-offline-card {
+                background: linear-gradient(145deg, rgba(30, 20, 25, 0.9), rgba(15, 10, 12, 0.9));
+                border: 1px solid rgba(255, 60, 60, 0.2);
+                border-radius: 16px;
+                padding: 2.5rem;
+                text-align: center;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 60, 60, 0.1);
+                max-width: 400px;
+                width: 90%;
+            }
+            .gateway-offline-icon {
+                margin-bottom: 1.5rem;
+            }
+            .gateway-offline-icon .status-dot {
+                display: inline-block;
+                width: 16px; height: 16px;
+                background: #ff5555;
+                border-radius: 50%;
+                box-shadow: 0 0 15px #ff5555;
+                animation: pulse-red 2s infinite;
+            }
+            @keyframes pulse-red {
+                0% { box-shadow: 0 0 0 0 rgba(255, 85, 85, 0.7); }
+                70% { box-shadow: 0 0 0 15px rgba(255, 85, 85, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 85, 85, 0); }
+            }
+            .gateway-offline-card h2 {
+                color: #ff5555;
+                margin: 0 0 1rem;
+                font-size: 1.5rem;
+                letter-spacing: -0.02em;
+            }
+            .gateway-offline-card p {
+                color: rgba(255, 255, 255, 0.7);
+                margin: 0;
+                line-height: 1.5;
+                font-size: 1rem;
+            }
+            
+            .gateway-online-indicator {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: rgba(20, 25, 20, 0.8);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                border: 1px solid rgba(80, 255, 120, 0.2);
+                padding: 10px 16px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                z-index: 9998;
+                font-family: var(--font-mono, 'JetBrains Mono', monospace);
+                font-size: 0.85rem;
+                color: #84f1b5;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                opacity: 0;
+                transform: translateY(10px);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                pointer-events: none;
+            }
+            .gateway-online-indicator.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .gateway-online-indicator .status-dot {
+                display: inline-block;
+                width: 8px; height: 8px;
+                background: #84f1b5;
+                border-radius: 50%;
+                box-shadow: 0 0 8px #84f1b5;
+            }
+        `;
+        document.head.appendChild(style);
+
+        const onlineIndicator = document.createElement('div');
+        onlineIndicator.id = 'gateway-online-indicator';
+        onlineIndicator.className = 'gateway-online-indicator';
+        onlineIndicator.innerHTML = `
+            <span class="status-dot"></span>
+            <span>Payment Gateway Online</span>
+        `;
+        document.body.appendChild(onlineIndicator);
+    })();
+
+    window.checkGatewayStatus = async function() {
+        if (!window.CHAOSPHERE_API) return false;
+        try {
+            const response = await fetch(`${window.CHAOSPHERE_API}/health`, { method: 'GET' });
+            window.isPaymentGatewayOnline = response.ok;
+        } catch (e) {
+            window.isPaymentGatewayOnline = false;
+        }
+        
+        const isLeaderboard = window.location.pathname.includes('leaderboard.html');
+        const overlay = document.getElementById('gateway-offline-overlay');
+        const onlineIndicator = document.getElementById('gateway-online-indicator');
+        
+        if (!isLeaderboard) {
+            if (window.isPaymentGatewayOnline) {
+                if (overlay) overlay.classList.remove('is-visible');
+                if (onlineIndicator) onlineIndicator.classList.add('is-visible');
+                document.querySelectorAll('button:not(.pin-display)').forEach(btn => {
+                    if (btn.dataset.offlineDisabled === 'true') {
+                        btn.disabled = false;
+                        btn.dataset.offlineDisabled = 'false';
+                    }
+                });
+            } else {
+                if (overlay) overlay.classList.add('is-visible');
+                if (onlineIndicator) onlineIndicator.classList.remove('is-visible');
+                document.querySelectorAll('button:not(.pin-display)').forEach(btn => {
+                    if (!btn.disabled) {
+                        btn.disabled = true;
+                        btn.dataset.offlineDisabled = 'true';
+                    }
+                });
+            }
+        }
+        return window.isPaymentGatewayOnline;
+    };
+
+    window.checkGatewayStatus();
+    setInterval(window.checkGatewayStatus, 10000);
     (function initPageLoader() {
         window.addEventListener('load', () => {
             const loader = document.querySelector('.page-loader');
